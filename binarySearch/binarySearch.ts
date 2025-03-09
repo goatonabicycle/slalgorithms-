@@ -1,24 +1,17 @@
 export function binarySearch(arrayOfThings: number[], target: number): number {
+	if (arrayOfThings.length === 0) return -1;
+
 	const middleIndex = Math.floor(arrayOfThings.length / 2);
-	console.log(arrayOfThings[middleIndex]);
+	const middleValue = arrayOfThings[middleIndex];
 
-	if (target === arrayOfThings[middleIndex]) return middleIndex;
-	if (target > arrayOfThings[middleIndex]) {
-		const right = [
-			...arrayOfThings.filter((x) => x > arrayOfThings[middleIndex]),
-		];
+	if (target === middleValue) return middleIndex;
 
-		console.log({ right });
-		binarySearch(right, target);
+	if (target > middleValue) {
+		const rightHalf = arrayOfThings.slice(middleIndex + 1);
+		const rightResult = binarySearch(rightHalf, target);
+		return rightResult === -1 ? -1 : middleIndex + 1 + rightResult;
 	}
 
-	if (target < arrayOfThings[middleIndex]) {
-		const left = [
-			...arrayOfThings.filter((x) => x < arrayOfThings[middleIndex]),
-		];
-		console.log({ left });
-		binarySearch(left, target);
-	}
-
-	return -1;
+	const leftHalf = arrayOfThings.slice(0, middleIndex);
+	return binarySearch(leftHalf, target);
 }
